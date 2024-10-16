@@ -4,11 +4,6 @@ from typing import Optional
 class LumaAPI():
   """
   Api wrapper for luma api
-
-  Parameters
-  ----------
-  Authorization: :class:`str`
-    Apikey autenthication
   """
   def __init__(
     self,
