@@ -17,9 +17,6 @@ class LumaAPI():
   ):
     self.apikey = key
     self.base_url = url
-    self.headers = {
-      "Authorization": self.apikey
-    }
 
   async def __do_request(
     self,
@@ -30,7 +27,7 @@ class LumaAPI():
     """
     Make a reqeuest to the api
     """
-    async with aiohttp.ClientSession(headers=self.headers) as cs:
+    async with aiohttp.ClientSession() as cs:
       async with cs.request(
         method,
         f"{self.base_url}{endpoint}",
@@ -78,6 +75,24 @@ class LumaAPI():
     """
     data = await self.__do_request(
       "/instagram",
+      params={"username": username}
+    )
+    return data
+
+  async def tiktok_user(
+    self,
+    username: str
+  ):
+    """
+    Get a user's tiktok profile
+
+    Parameters
+    ----------
+    username: :class:`str`
+      Tiktok account name
+    """
+    data = await self.__do_request(
+      "/tiktok",
       params={"username": username}
     )
     return data
