@@ -103,8 +103,7 @@ class FulcrumAPI():
 
   async def images(
     self,
-    query: str,
-    safe: str = False
+    query: str
   ):
     """
     Get images from the internet
@@ -112,12 +111,10 @@ class FulcrumAPI():
     Parameters
     ----------
     query: :class:`str`
-    safe: :class:`str`
-      safe should either be `True` or `False`
     """
     data = await self.__do_request(
       "/images",
-      params={"query": query, "safe": "True" if safe else "False"}
+      params={"query": query, "safe": "True"}
     )
     return data
 
