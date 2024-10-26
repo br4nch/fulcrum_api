@@ -29,10 +29,7 @@ class LumaAPI():
         params=params
       ) as r:
         if r.ok:
-          if r.content_type == "application/json":
-            return await r.json()
-          else:
-            return await r.read()
+          return await r.json()
         return {
           "status_code": r.status,
           "detail": (await r.json())['detail']
@@ -56,38 +53,56 @@ class LumaAPI():
     )
     return data['message']
 
-  async def instagram_user(
+  """async def instagram_user(
     self,
     username: str
   ):
-    """
+    "
     Get a user's instagram info
 
     Parameters
     ----------
     username: :class:`str`
       Instagram account username
-    """
+    "
     data = await self.__do_request(
       "/instagram",
       params={"username": username}
     )
-    return data
+    return data"""
 
   async def tiktok_user(
     self,
     username: str
   ):
     """
-    Get a user's tiktok profile
+    Get someone's tiktok profile
 
     Parameters
     ----------
     username: :class:`str`
-      Tiktok account name
+      tiktok account name
     """
     data = await self.__do_request(
       "/tiktok",
       params={"username": username}
+    )
+    return data
+
+  async def ocr(
+    self,
+    url: str
+  ):
+    """
+    Read text from the given image
+
+    Parameters
+    ----------
+    url: :class:`str`
+      image link
+    """
+    data = await self.__do_request(
+      "/ocr",
+      params={"url": url}
     )
     return data
