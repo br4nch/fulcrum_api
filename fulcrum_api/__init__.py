@@ -1,9 +1,9 @@
 import aiohttp
 from typing import Optional
 
-class LumaAPI():
+class FulcrumAPI():
   """
-  Api wrapper for luma api
+  Api wrapper for fulcrum api
   """
   def __init__(
     self,
