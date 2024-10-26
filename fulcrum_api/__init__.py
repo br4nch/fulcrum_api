@@ -119,3 +119,20 @@ class FulcrumAPI():
       params={"query": query, "safe": safe}
     )
     return data
+
+  async def cashapp(
+    self,
+    name: str
+  ):
+    """
+    Get someone's cashapp profile
+
+    Parameters
+    ----------
+    name: :class:`str`
+    """
+    data = await self.__do_request(
+      "/cashapp",
+      params={"username": name}
+    )
+    return data
