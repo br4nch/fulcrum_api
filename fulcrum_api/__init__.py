@@ -136,3 +136,37 @@ class FulcrumAPI():
       params={"username": name}
     )
     return data
+
+  async def twitter_user(
+    self,
+    username: str
+  ):
+    """
+    Get someone's twitter profile
+
+    Paratemers
+    ----------
+    username: :class:`str`
+    """
+    data = await self.__do_request(
+      "/twitter",
+      params={"username": username}
+    )
+    return data
+
+  async def roblox(
+    self,
+    username: str
+  ):
+    """
+    Get someone's roblox profile
+
+    Parameters
+    ----------
+    username: :class:`str`
+    """
+    data = await self.__do_request(
+      "/roblox",
+      params={"username": username}
+    )
+    return data
