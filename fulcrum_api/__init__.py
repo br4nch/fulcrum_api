@@ -29,7 +29,7 @@ class FulcrumAPI():
         if r.ok:
           return await r.json()
         return {
-          "status_code": r.status,
+          "code": r.status,
           "detail": (await r.json())['detail']
         }
 
@@ -43,31 +43,12 @@ class FulcrumAPI():
     Parameters
     ----------
     message: :class:`str`
-      Convert a message to uwu
     """
     data = await self.__do_request(
       "/uwu",
       params={"message": message}
     )
     return data['message']
-
-  """async def instagram_user(
-    self,
-    username: str
-  ):
-    "
-    Get a user's instagram info
-
-    Parameters
-    ----------
-    username: :class:`str`
-      Instagram account username
-    "
-    data = await self.__do_request(
-      "/instagram",
-      params={"username": username}
-    )
-    return data"""
 
   async def tiktok_user(
     self,
@@ -79,7 +60,6 @@ class FulcrumAPI():
     Parameters
     ----------
     username: :class:`str`
-      tiktok account name
     """
     data = await self.__do_request(
       "/tiktok",
@@ -97,10 +77,45 @@ class FulcrumAPI():
     Parameters
     ----------
     url: :class:`str`
-      image link
     """
     data = await self.__do_request(
       "/ocr",
       params={"url": url}
+    )
+    return data
+
+  async def weather(
+    self,
+    location: str
+  ):
+    """
+    Get informations about a location weather
+
+    Parameters
+    ----------
+    location: :class:`str`
+    """
+    data = await self.__do_request(
+      "/weather",
+      params={"location": location}
+    )
+    return data
+
+  async def images(
+    self,
+    query: str,
+    safe: bool
+  ):
+    """
+    Get images from the internet
+
+    Parameters
+    ----------
+    query: :class:`str`
+    safe: :class:`boolean`
+    """
+    data = await self.__do_request(
+      "/images",
+      params={"query": query, "safe": safe}
     )
     return data
