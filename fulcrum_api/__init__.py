@@ -104,7 +104,7 @@ class FulcrumAPI():
   async def images(
     self,
     query: str,
-    safe: bool
+    safe: bool = False
   ):
     """
     Get images from the internet
