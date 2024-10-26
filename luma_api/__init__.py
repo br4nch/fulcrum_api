@@ -7,10 +7,8 @@ class LumaAPI():
   """
   def __init__(
     self,
-    key: str,
     url: str = "https://api.fulcrum.lol"
   ):
-    self.apikey = key
     self.base_url = url
 
   async def __do_request(
