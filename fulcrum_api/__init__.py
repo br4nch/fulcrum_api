@@ -116,7 +116,7 @@ class FulcrumAPI():
     """
     data = await self.__do_request(
       "/images",
-      params={"query": query, "safe": safe}
+      params={"query": query, "safe": "True" if safe else ""}
     )
     return data
 
