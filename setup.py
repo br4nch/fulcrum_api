@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
   name="fulcrum_api",
-  version="0.0.4",
+  version="0.0.5",
   url="https://github.com/br4nch/fulcrum_api",
   description="A python wrapper for fulcrum api",
   author="br4nch",
