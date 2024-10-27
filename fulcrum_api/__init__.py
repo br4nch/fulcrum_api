@@ -3,34 +3,29 @@ from typing import Optional
 
 class FulcrumAPI():
   """
-  Api wrapper for fulcrum api
+  A wrapper for the fulcrum API
   """
-  def __init__(
-    self,
-    url: str = "https://api.fulcrum.lol"
-  ):
-    self.base_url = url
+  def __init__(self):
+    super().__init__()
 
   async def __do_request(
     self,
     endpoint: str,
-    method = "GET",
     params: Optional[dict] = None
   ):
     """
-    Make a reqeuest to the api
+    Make a request to the api
     """
     async with aiohttp.ClientSession() as cs:
-      async with cs.request(
-        method,
-        f"{self.base_url}{endpoint}",
+      async with cs.get(
+        f"https://api.fulcrum.lol/{endpoint}",
         params=params
       ) as r:
         if r.ok:
           return await r.json()
         return {
           "code": r.status,
-          "detail": (await r.json())['detail']
+          "message": (await r.json())['detail']
         }
 
   async def uwu(
@@ -45,7 +40,7 @@ class FulcrumAPI():
     message: :class:`str`
     """
     data = await self.__do_request(
-      "/uwu",
+      "uwu",
       params={"message": message}
     )
     return data['message']
@@ -55,14 +50,14 @@ class FulcrumAPI():
     username: str
   ):
     """
-    Get someone's tiktok profile
+    Get info about someone's tiktok profile
 
     Parameters
     ----------
     username: :class:`str`
     """
     data = await self.__do_request(
-      "/tiktok",
+      "tiktok",
       params={"username": username}
     )
     return data
@@ -79,7 +74,7 @@ class FulcrumAPI():
     url: :class:`str`
     """
     data = await self.__do_request(
-      "/ocr",
+      "ocr",
       params={"url": url}
     )
     return data
@@ -96,7 +91,7 @@ class FulcrumAPI():
     location: :class:`str`
     """
     data = await self.__do_request(
-      "/weather",
+      "weather",
       params={"location": location}
     )
     return data
@@ -113,25 +108,25 @@ class FulcrumAPI():
     query: :class:`str`
     """
     data = await self.__do_request(
-      "/images",
+      "images",
       params={"query": query, "safe": "True"}
     )
     return data
 
   async def cashapp(
     self,
-    name: str
+    username: str
   ):
     """
     Get someone's cashapp profile
 
     Parameters
     ----------
-    name: :class:`str`
+    username: :class:`str`
     """
     data = await self.__do_request(
-      "/cashapp",
-      params={"username": name}
+      "cashapp",
+      params={"username": username}
     )
     return data
 
@@ -140,14 +135,14 @@ class FulcrumAPI():
     username: str
   ):
     """
-    Get someone's twitter profile
+    Get info about someone's twitter profile
 
     Paratemers
     ----------
     username: :class:`str`
     """
     data = await self.__do_request(
-      "/twitter",
+      "twitter",
       params={"username": username}
     )
     return data
@@ -157,14 +152,14 @@ class FulcrumAPI():
     username: str
   ):
     """
-    Get someone's roblox profile
+    Get info about someone's roblox profile
 
     Parameters
     ----------
     username: :class:`str`
     """
     data = await self.__do_request(
-      "/roblox",
+      "roblox",
       params={"username": username}
     )
     return data
@@ -185,5 +180,39 @@ class FulcrumAPI():
     data = await self.__do_request(
       "/screenshot",
       params={"url": url, "wait": wait}
+    )
+    return data
+
+  async def snapchat(
+    self,
+    username: str
+  ):
+    """
+    Get info about someone's snapchat profile
+
+    Parameters
+    ----------
+    username: :class:`str`
+    """
+    data = await self.__do_request(
+      "snapchat",
+      params={"username": username}
+    )
+    return data
+
+  async def snapchat_story(
+    self,
+    username: str
+  ):
+    """
+    Get someone's snapchat stories
+
+    Parameters
+    ----------
+    username: :class:`str`
+    """
+    data = await self.__do_request(
+      "snapchat/story",
+      params={"username": username}
     )
     return data
