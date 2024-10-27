@@ -168,3 +168,22 @@ class FulcrumAPI():
       params={"username": username}
     )
     return data
+
+  async def screenshot(
+    self,
+    url: str,
+    wait: int = 1
+  ):
+    """
+    Screenshot a website
+
+    Parameters
+    ----------
+    url: :class:`str`
+    wait: :class:`int`
+    """
+    data = await self.__do_request(
+      "/screenshot",
+      params={"url": url, "wait": wait}
+    )
+    return data
