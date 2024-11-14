@@ -10,7 +10,7 @@ class FulcrumAPI():
   Fulcrum API Wrapper
 
   -------------------
-  A wrapper for the fulcrum API
+  A wrapper for the Fulcrum API
   """
   def __init__(self: "FulcrumAPI"):
     super().__init__()
