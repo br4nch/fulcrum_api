@@ -1,218 +1,191 @@
 import aiohttp
-from typing import Optional
+from typing import (
+  Optional,
+  Dict,
+  Any
+)
 
 class FulcrumAPI():
   """
+  Fulcrum API Wrapper
+
+  -------------------
   A wrapper for the fulcrum API
   """
-  def __init__(self):
+  def __init__(self: "FulcrumAPI"):
     super().__init__()
 
-  async def __do_request(
-    self,
-    endpoint: str,
-    params: Optional[dict] = None
-  ):
+  async def __do_request(self, endpoint: str, params: Optional[dict] = None):
     """
-    Make a request to the api
+    Make a request to the given endpoint
     """
     async with aiohttp.ClientSession() as cs:
-      async with cs.get(
-        f"https://api.fulcrum.lol/{endpoint}",
-        params=params
-      ) as r:
-        if r.ok:
-          return await r.json()
-        return {
-          "code": r.status,
-          "message": (await r.json())['detail']
-        }
+      async with cs.get(f"https://api.fulcrum.lol/{endpoint}", params=params) as r:
+        if r.status == 200:
+          if r.content_type == "application/json":
+            return await r.json()
+          elif r.content_type == "text/html":
+            return await r.text()
+        else:
+          return {
+            "error code": r.status,
+            "message": (await r.json())["detail"]
+          }
 
-  async def uwu(
-    self,
-    message: str
-  ) -> str:
+  async def uwu(self, message: str) -> str:
     """
     Uwuify a message
 
     Parameters
     ----------
     message: :class:`str`
+      The message that should be uwuified
     """
-    data = await self.__do_request(
-      "uwu",
-      params={"message": message}
-    )
+    data = await self.__do_request("uwu", params={"message": message})
     return data['message']
+  
+  async def instagram_user(self, username: str) -> Dict[str, Any]:
+    """
+    Get someones instagram account statistics
 
-  async def tiktok_user(
-    self,
-    username: str
-  ):
+    Parameters
+    ----------
+    username: :class:`str`
+      The instagram account username
+    """
+    data = await self.__do_request("instagram", params={"username": username})
+    return data
+  
+  async def instagram_story(self, username: str) -> Dict[str, Any]:
+    """
+    Get someones instagram account stories (if they have any)
+
+    Parameters
+    ----------
+    username: :class:`str`
+      The instagram account username
+    """
+    data = await self.__do_request("instagram/story", params={"username": username})
+    return data
+
+  async def tiktok_user(self, username: str) -> Dict[str, Any]:
     """
     Get info about someone's tiktok profile
 
     Parameters
     ----------
     username: :class:`str`
+      The username of the tiktok profile
     """
-    data = await self.__do_request(
-      "tiktok",
-      params={"username": username}
-    )
+    data = await self.__do_request("tiktok", params={"username": username})
     return data
 
-  async def ocr(
-    self,
-    url: str
-  ):
+  async def ocr(self, url: str) -> Dict[str, Any]:
     """
-    Read text from the given image
+    Scan the image for text and return it
 
     Parameters
     ----------
     url: :class:`str`
+      The url of the image it should search for text in
     """
-    data = await self.__do_request(
-      "ocr",
-      params={"url": url}
-    )
+    data = await self.__do_request("ocr", params={"url": url})
     return data
 
-  async def weather(
-    self,
-    location: str
-  ):
+  async def weather(self, location: str) -> Dict[str, Any]:
     """
-    Get informations about a location weather
+    Get information about the weather from a location
 
     Parameters
     ----------
     location: :class:`str`
+      The location where it should get the weather info
     """
-    data = await self.__do_request(
-      "weather",
-      params={"location": location}
-    )
+    data = await self.__do_request("weather", params={"location": location})
     return data
 
-  async def images(
-    self,
-    query: str
-  ):
+  async def images(self, query: str, safe: bool) -> Dict[str, Any]:
     """
-    Get images from the internet
+    Return a list of images for the given query
 
     Parameters
     ----------
     query: :class:`str`
+      The query to use when searching for images
     """
-    data = await self.__do_request(
-      "images",
-      params={"query": query, "safe": "True"}
-    )
+    data = await self.__do_request("images", params={"query": query, "safe": str(safe)})
     return data
 
-  async def cashapp(
-    self,
-    username: str
-  ):
+  async def cashapp(self, username: str) -> Dict[str, Any]:
     """
-    Get someone's cashapp profile
+    Get information about someone cashapp
 
     Parameters
     ----------
     username: :class:`str`
+      The cashapp account username
     """
-    data = await self.__do_request(
-      "cashapp",
-      params={"username": username}
-    )
+    data = await self.__do_request("cashapp", params={"username": username})
     return data
 
-  async def twitter_user(
-    self,
-    username: str
-  ):
+  async def twitter_user(self, username: str) -> Dict[str, Any]:
     """
-    Get info about someone's twitter profile
+    Get information about a twitter profile (also known as X)
 
     Paratemers
     ----------
     username: :class:`str`
+      The twitter profile username
     """
-    data = await self.__do_request(
-      "twitter",
-      params={"username": username}
-    )
+    data = await self.__do_request("twitter", params={"username": username})
     return data
 
-  async def roblox(
-    self,
-    username: str
-  ):
+  async def roblox_user(self, username: str) -> Dict[str, Any]:
     """
-    Get info about someone's roblox profile
+    Get information and statistics of a roblox user
 
     Parameters
     ----------
     username: :class:`str`
+      The user username
     """
-    data = await self.__do_request(
-      "roblox",
-      params={"username": username}
-    )
+    data = await self.__do_request("roblox", params={"username": username})
     return data
 
-  async def screenshot(
-    self,
-    url: str,
-    wait: int = 1
-  ):
+  async def screenshot(self, url: str, wait: int = 1) -> Dict[str, Any]:
     """
-    Screenshot a website
+    Get a preview of a website
 
     Parameters
     ----------
     url: :class:`str`
+      The website url
     wait: :class:`int`
+      The time to wait before taking the screenshot
     """
-    data = await self.__do_request(
-      "/screenshot",
-      params={"url": url, "wait": wait}
-    )
+    data = await self.__do_request("screenshot", params={"url": url, "wait": wait})
     return data
 
-  async def snapchat(
-    self,
-    username: str
-  ):
+  async def snapchat(self, username: str) -> Dict[str, Any]:
     """
-    Get info about someone's snapchat profile
+    Get a snapchat user profile
 
     Parameters
     ----------
     username: :class:`str`
+      The snapchat username of the snapchat user
     """
-    data = await self.__do_request(
-      "snapchat",
-      params={"username": username}
-    )
+    data = await self.__do_request("snapchat", params={"username": username})
     return data
 
-  async def snapchat_story(
-    self,
-    username: str
-  ):
+  async def snapchat_story(self, username: str):
     """
-    Get someone's snapchat stories
+    Get a snapchat user stories (if they have any)
 
     Parameters
     ----------
     username: :class:`str`
+      The snapchat username of the user
     """
-    data = await self.__do_request(
-      "snapchat/story",
-      params={"username": username}
-    )
+    data = await self.__do_request("snapchat/story", params={"username": username})
     return data
