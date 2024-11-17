@@ -189,3 +189,15 @@ class FulcrumAPI():
     """
     data = await self.__do_request("snapchat/story", params={"username": username})
     return data
+
+  async def lyrics(self, song: str) -> Dict[str, Any]:
+    """
+    Get the lyrics with some additional info from a song
+
+    Parameters
+    ----------
+    song: :class:`str`
+      The song name to fetch info
+    """
+    data = await self.__do_request("lyrics", params={"song": song})
+    return data
