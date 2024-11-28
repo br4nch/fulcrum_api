@@ -68,6 +68,18 @@ class FulcrumAPI():
     data = await self.__do_request("instagram/story", params={"username": username})
     return data
 
+  async def instagram_highlights(self, username: str) -> Dict[str, Any]:
+    """
+    Get someones instagram account highlights (if they have any)
+
+    Parameters
+    ----------
+    username: :class:`str`
+      The instagram account username
+    """
+    data = await self.__do_request("instagram/highlights", params={"username": username})
+    return data
+
   async def tiktok_user(self, username: str) -> Dict[str, Any]:
     """
     Get info about someone's tiktok profile
