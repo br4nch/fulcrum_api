@@ -213,3 +213,15 @@ class FulcrumAPI():
     """
     data = await self.__do_request("lyrics", params={"song": song})
     return data
+
+  async def dominant(self, url: str) -> Dict[str, Any]:
+    """
+    Get the rgb, hex and name of the dominant color from an image
+
+    Parameters
+    ----------
+    url: :class:`str`
+      The url of the image
+    """
+    data = await self.__do_request("dominant", params={"url": url})
+    return data
